@@ -1,0 +1,4 @@
+pyswisseph
+matplotlib
+numpy
+streamlit
