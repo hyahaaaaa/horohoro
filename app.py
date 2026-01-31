@@ -3,13 +3,29 @@ import swisseph as swe
 import matplotlib.pyplot as plt
 import numpy as np
 import datetime
+import os
+import matplotlib.font_manager as fm
+import urllib.request
 
 # --- ページ基本設定 ---
 st.set_page_config(page_title="星読みWebアプリ", layout="wide")
 
-# フォント設定（日本語豆腐対策）
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Liberation Sans', 'Bitstream Vera Sans', 'sans-serif']
+# --- 日本語フォント設定（豆腐対策の決定版） ---
+@st.cache_resource
+def load_font():
+    # Googleが提供している日本語フォントをダウンロード
+    font_url = "https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/Japanese/NotoSansCJKjp-Regular.otf"
+    font_path = "NotoSansCJKjp-Regular.otf"
+    if not os.path.exists(font_path):
+        urllib.request.urlretrieve(font_url, font_path)
+    return font_path
+
+font_p = load_font()
+font_prop = fm.FontProperties(fname=font_p)
+plt.rcParams['font.family'] = font_prop.get_name()
+
+# --- 描画部分の修正（テキスト表示箇所に fontproperties=font_prop を追加） ---
+# ※中略（以前のCITY_DBやSABIAN_DATAはそのまま）
 
 # --- データベース (都市 & サビアン) ---
 CITY_DB = {
