@@ -50,14 +50,17 @@ def calc_pos(y, m, d, h, mi):
 st.title("🌟 鑑定用ホロスコープ")
 st.sidebar.title("🛠️ 設定パネル")
 
-# --- 出生日の入力 (ここを広げました) ---
+# 出生日の入力
 n_date = st.sidebar.date_input(
     "出生日", 
     value=datetime.date(1990, 1, 1),
     min_value=datetime.date(1900, 1, 1),
     max_value=datetime.date(2100, 12, 31)
 )
-n_time = st.sidebar.time_input("時刻", datetime.time(12, 0))
+
+# 【ここを修正！】時刻を1分単位(step=60)にしました
+n_time = st.sidebar.time_input("時刻", datetime.time(12, 0), step=60)
+
 place_name = st.sidebar.selectbox("生まれた場所", list(CITY_DB.keys()), index=12)
 t_mode = st.sidebar.radio("モード", ["ネイタル", "重ね表示", "トランジットのみ"])
 
